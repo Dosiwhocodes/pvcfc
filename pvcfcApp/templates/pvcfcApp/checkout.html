@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thanh toán</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-5xl mx-auto p-6">
+
+  <!-- TITLE -->
+  <h1 class="text-3xl font-bold mb-6 text-[#006633]">
+    Thanh toán
+  </h1>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <!-- 🛒 CART SUMMARY -->
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h2 class="text-xl font-semibold mb-4">Đơn hàng của bạn</h2>
+
+      {% for item in cart %}
+      <div class="flex justify-between border-b py-2">
+        <span>{{ item.name }} x {{ item.quantity }}</span>
+        <span>{{ item.price|floatformat:0 }}đ</span>
+      </div>
+      {% endfor %}
+
+      <div class="flex justify-between mt-4 font-bold text-lg">
+        <span>Tổng:</span>
+        <span class="text-[#006633]">{{ total }}đ</span>
+      </div>
+      
+
+      <!-- GO BACK -->
+      <a href="/" 
+         class="mt-4 inline-block text-blue-500 hover:underline">
+         ← Tiếp tục mua sắm
+      </a>
+    </div>
+
+    <form method="POST">
+  {% csrf_token %}
+
+  <h3>Chọn phương thức thanh toán</h3>
+
+  <label>
+    <input type="radio" name="payment_method" value="cod" checked>
+    Thanh toán khi nhận hàng (COD)
+  </label><br>
+
+  <label>
+    <input type="radio" name="payment_method" value="vnpay">
+    Thanh toán VNPay
+  </label><br><br>
+
+  <button type="submit">Đặt hàng</button>
+</form>
+
+    <!-- 📋 FORM -->
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h2 class="text-xl font-semibold mb-4">Thông tin khách hàng</h2>
+
+      <form method="POST" class="space-y-4">
+        {% csrf_token %}
+
+        <input name="name" placeholder="Họ và tên"
+          class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+
+        <input name="phone" placeholder="Số điện thoại"
+          class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+
+        <input name="address" placeholder="Địa chỉ"
+          class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+
+        <button type="submit"
+          class="w-full bg-[#006633] text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+          Xác nhận đặt hàng
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

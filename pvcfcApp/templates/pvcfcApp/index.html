@@ -1,0 +1,598 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân Bón Cà Mau - PVCFC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-['Roboto'] bg-gray-50 text-gray-900">
+
+<!-- ===== HEADER ===== -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <img src="{% static 'pvcfc/images/logo.jpg' %}" class="h-12">
+      <span class="text-xl font-bold text-[#006633]">Phân Bón Cà Mau</span>
+    </div>
+
+    <div class="flex items-center space-x-6">
+      <nav class="space-x-8 font-medium text-gray-700">
+        <a href="#products" data-i18n="menu_products" class="hover:text-[#006633]">Sản phẩm</a>
+        <a href="#about" data-i18n="menu_about" class="hover:text-[#006633]">Giới thiệu</a>
+        <a href="#farmer-support" data-i18n="menu_farmer" class="hover:text-[#006633]">Đồng hành cùng nhà nông</a>
+        <a href="#news" data-i18n="menu_news" class="hover:text-[#006633]">Tin tức</a>
+        <a href="#investor" data-i18n="menu_investor" class="hover:text-[#006633]">Nhà đầu tư</a>
+        <a href="#sustainability" data-i18n="menu_sus" class="hover:text-[#006633]">Bền vững</a>
+      </nav>
+      <input id="searchInput" placeholder="Tìm sản phẩm..."
+  class="border px-3 py-1 rounded">
+
+      <!-- CART ICON -->
+<div class="relative cursor-pointer" onclick="goToCart()">
+  🛒
+  <span id="cartCount"
+    class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+    0
+  </span>
+</div>
+
+      <!-- FLAGS -->
+      <div class="flex space-x-2">
+        <button onclick="setLang('vi')">
+          <img src="https://flagcdn.com/w20/vn.png" class="w-6 h-4">
+        </button>
+        <button onclick="setLang('en')">
+          <img src="https://flagcdn.com/w20/gb.png" class="w-6 h-4">
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO SLIDER ===== -->
+<section class="relative h-[520px] overflow-hidden">
+  <div id="slider" class="flex transition-transform duration-700 h-full">
+
+    <div class="min-w-full relative">
+      <img src="{% static 'pvcfc/images/banner.jpg' %}" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="absolute inset-0 flex items-center">
+        <div class="max-w-7xl mx-auto px-6 text-white">
+          <h1 class="text-5xl font-bold leading-tight" data-i18n="hero_title">
+            KIẾN TẠO NIỀM TIN<br>ĐỒNG HÀNH PHÁT TRIỂN
+          </h1>
+          <p class="mt-4 text-lg" data-i18n="hero_desc">
+            Cung cấp phân bón chất lượng cao cho nông nghiệp Việt Nam
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 --> 
+    <div class="min-w-full relative"> 
+      <img src="{% static 'pvcfc/images/banner1.jpg' %}" class="w-full h-full object-cover"> 
+      <div class="absolute inset-0 bg-black/40"></div> 
+      <div class="absolute inset-0 flex items-center"> 
+        <div class="max-w-7xl mx-auto px-6 text-white"> 
+          <h1 class="text-5xl font-bold" data-i18n="hero_title1"> PHÁT TRIỂN BỀN VỮNG </h1> 
+          <p class="mt-4 text-lg" data-i18n="hero_desc1"> Đồng hành cùng nhà nông – Hướng tới tương lai xanh </p> 
+        </div> 
+      </div> 
+    </div>
+
+    <!-- SLIDE 3 --> 
+    <div class="min-w-full relative"> 
+      <img src="{% static 'pvcfc/images/banner2.jpg' %}" class="w-full h-full object-cover"> 
+      <div class="absolute inset-0 bg-black/40"></div> 
+      <div class="absolute inset-0 flex items-center"> 
+        <div class="max-w-7xl mx-auto px-6 text-white"> 
+          <h1 class="text-5xl font-bold" data-i18n="hero_title2"> SẢN PHẨM CHỦ LỰC QUỐC GIA </h1> 
+          <p class="mt-4 text-lg" data-i18n="hero_desc2"> Đảm bảo an ninh lương thực Việt Nam </p> 
+        </div> 
+      </div> 
+    </div>
+
+  </div>
+
+  <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 bg-green-700 text-white w-12 h-12 rounded-full">‹</button>
+  <button onclick="nextSlide()" class="absolute right-6 top-1/2 -translate-y-1/2 bg-green-700 text-white w-12 h-12 rounded-full">›</button>
+</section>
+
+<!-- ===== PRODUCTS ===== -->
+
+<section id="products" class="py-20 bg-gray-50">
+
+  <h2 class="text-3xl font-bold text-[#006633] mb-12 text-center">
+    Sản phẩm tiêu biểu
+  </h2>
+
+  <div class="grid md:grid-cols-3 gap-8">
+
+    {% for product in products %}
+    <div class="bg-white p-4 rounded-xl shadow text-center">
+
+      <img src="{{ product.ImageURL }}" class="h-40 mx-auto mb-4">
+
+      <h3 class="font-bold text-lg">{{ product.name }}</h3>
+
+      <p class="text-gray-600 text-sm">
+        {{ product.description|truncatechars:50 }}
+      </p>
+
+      <p class="text-[#006633] font-semibold mt-2">
+        {{ product.price }} VNĐ
+      </p>
+
+      <button onclick="addToCart('{{product.id}}','{{product.name}}','{{product.price}}')"
+        class="mt-3 bg-yellow-400 px-4 py-2 rounded">
+        🛒 Thêm vào giỏ
+      </button>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+
+</section>
+
+<!-- About -->
+  <section id="about" class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-[#006633] mb-6" data-i18n="about_title">Giới thiệu</h2>
+      <p class="text-gray-700 leading-relaxed" data-i18n="about_desc">Công ty Cổ phần Phân bón Dầu khí Cà Mau (PVCFC) là đơn vị hàng đầu trong ngành phân bón Việt Nam, tiên phong trong công nghệ sản xuất và phát triển bền vững. Chúng tôi mang đến các sản phẩm chất lượng cao, đồng hành cùng sự phát triển của nền nông nghiệp quốc gia.</p>
+    </div>
+  </section>
+  <!-- ===== PVCFC PERKS ===== -->
+<section id="perks" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center text-[#006633] mb-12"
+        data-i18n="perks_title">
+      Lợi thế của Phân Bón Cà Mau
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">🏭</div>
+        <h3 class="font-bold text-lg mb-2" data-i18n="perk_1_title">
+          Công nghệ hiện đại
+        </h3>
+        <p class="text-gray-600 text-sm" data-i18n="perk_1_desc">
+          Nhà máy khí – đạm Cà Mau vận hành theo tiêu chuẩn quốc tế, ứng dụng công nghệ tiên tiến.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">🌍</div>
+        <h3 class="font-bold text-lg mb-2" data-i18n="perk_2_title">
+          Chất lượng quốc tế
+        </h3>
+        <p class="text-gray-600 text-sm" data-i18n="perk_2_desc">
+          Sản phẩm đạt các tiêu chuẩn chất lượng nghiêm ngặt, ổn định và đáng tin cậy.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">🚚</div>
+        <h3 class="font-bold text-lg mb-2" data-i18n="perk_3_title">
+          Phân phối toàn quốc
+        </h3>
+        <p class="text-gray-600 text-sm" data-i18n="perk_3_desc">
+          Hệ thống phân phối rộng khắp, đảm bảo sản phẩm đến tay nông dân nhanh chóng.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">👨‍🔬</div>
+        <h3 class="font-bold text-lg mb-2" data-i18n="perk_4_title">
+          Đội ngũ chuyên gia
+        </h3>
+        <p class="text-gray-600 text-sm" data-i18n="perk_4_desc">
+          Đội ngũ kỹ sư và chuyên gia nông nghiệp giàu kinh nghiệm, đồng hành cùng nhà nông.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">♻️</div>
+        <h3 class="font-bold text-lg mb-2" data-i18n="perk_5_title">
+          Cam kết bền vững
+        </h3>
+        <p class="text-gray-600 text-sm" data-i18n="perk_5_desc">
+          Áp dụng mô hình ESG, giảm phát thải và bảo vệ môi trường sinh thái.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-6 text-center">
+        <div class="text-4xl mb-4">🏆</div>
+        <h3 class="font-bold text-lg mb-2" data-i18n="perk_6_title">
+          Thương hiệu uy tín
+        </h3>
+        <p class="text-gray-600 text-sm" data-i18n="perk_6_desc">
+          Thương hiệu quốc gia, được nông dân và đối tác tin tưởng trong nhiều năm.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ===== REVENUE CHART ===== -->
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-[#006633] mb-10 text-center"
+    data-i18n="revenue_title">
+  Thống kê doanh thu (tỷ đồng)
+</h2>
+
+
+    <canvas id="revenueChart" height="120"></canvas>
+  </div>
+</section>
+
+
+  <!-- Farmer Support -->
+  <section id="farmer-support" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-[#006633] mb-10" data-i18n="farmer_title">Đồng hành cùng nhà nông</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white shadow rounded-2xl overflow-hidden">
+          <img src="{% static 'pvcfc/images/farmer-support.jpg' %}" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-2" data-i18n="farmer_support_1">Hỗ trợ kỹ thuật</h3>
+            <p class="text-gray-600" data-i18n="farmer_support_1_desc">Cung cấp tư vấn, hướng dẫn nông dân sử dụng phân bón đúng cách để đạt hiệu quả cao nhất.</p>
+          </div>
+        </div>
+        <div class="bg-white shadow rounded-2xl overflow-hidden">
+          <img src="{% static 'pvcfc/images/hoithao.jpg' %}" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-2" data-i18n="farmer_support_2">Chương trình khuyến nông</h3>
+            <p class="text-gray-600" data-i18n="farmer_support_2_desc">Tổ chức hội thảo, đào tạo và hoạt động thực tế giúp nâng cao kiến thức, gắn kết với nông dân cả nước.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <section id="news" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-[#006633] mb-10" data-i18n="news_title">Tin tức & Sự kiện</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white shadow rounded-2xl overflow-hidden">
+          <img src="{% static 'pvcfc/images/news1.jpg' %}" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-2" data-i18n="news_title1">PVCFC tổ chức hội thảo nông dân 2025</h3>
+            <p class="text-gray-600 text-sm" data-i18n="news_title1_desc">Cùng bà con chia sẻ giải pháp canh tác hiệu quả...</p>
+          </div>
+        </div>
+        <div class="bg-white shadow rounded-2xl overflow-hidden">
+          <img src="{% static 'pvcfc/images/news2.jpg' %}" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-2" data-i18n="news_title2">Ra mắt sản phẩm NPK thế hệ mới</h3>
+            <p class="text-gray-600 text-sm" data-i18n="news_title2_desc">Nâng cao hiệu suất và thân thiện với môi trường...</p>
+          </div>
+        </div>
+        <div class="bg-white shadow rounded-2xl overflow-hidden">
+          <img src="{% static 'pvcfc/images/news3.jpg' %}" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="font-bold text-lg mb-2" data-i18n="news_title3">PVCFC nhận giải thưởng phát triển bền vững</h3>
+            <p class="text-gray-600 text-sm" data-i18n="news_title3_desc">Khẳng định cam kết vì một nền nông nghiệp xanh...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Investor -->
+  <section id="investor" class="py-16 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-[#006633] mb-6" data-i18n="investor_title">Quan hệ nhà đầu tư</h2>
+      <img src="{% static 'pvcfc/images/investor.jpg' %}" alt="Investor" class="mx-auto mb-6 rounded-2xl shadow">
+      <p class="text-gray-700 leading-relaxed" data-i18n="investor_desc">PVCFC cam kết minh bạch, hiệu quả và phát triển bền vững. Chúng tôi cung cấp đầy đủ thông tin tài chính, kết quả kinh doanh và định hướng chiến lược để đồng hành cùng cổ đông, nhà đầu tư trong chặng đường dài hạn.</p>
+    </div>
+  </section>
+
+  <!-- Sustainability -->
+  <section id="sustainability" class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-[#006633] mb-6" data-i18n="sus_title">Phát triển bền vững</h2>
+      <img src="{% static 'pvcfc/images/sustainability.jpg' %}" alt="Sustainability" class="mx-auto mb-6 rounded-2xl shadow">
+      <p class="text-gray-700 leading-relaxed" data-i18n="sus_desc">PVCFC luôn chú trọng bảo vệ môi trường, phát triển các sản phẩm thân thiện và áp dụng giải pháp tiết kiệm năng lượng. Chúng tôi hướng tới một nền nông nghiệp xanh, bền vững và thịnh vượng.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#006633] text-white py-8">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-6">
+      <div>
+        <img src="logo.png" alt="PVCFC Logo" class="h-12 mb-2">
+        <p>Hạt ngọc mùa vàng – Vững bền cuộc sống</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Liên hệ</h4>
+        <p>Hotline: 1800 888 606</p>
+        <p>Email: info@pvcfc.com.vn</p>
+        <p>Địa chỉ: KCN Khí – Điện – Đạm Cà Mau</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Kết nối</h4>
+        <div class="flex space-x-4">
+          <a href="#"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+          <a href="#"><i data-lucide="youtube" class="w-6 h-6"></i></a>
+          <a href="#"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<!-- ===== PRODUCT MODAL ===== -->
+<div id="productModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
+  <div class="bg-white max-w-4xl w-full mx-4 rounded-xl p-8 relative">
+    <button onclick="closeProduct()" class="absolute top-4 right-4 text-xl">✖</button>
+    <div class="grid md:grid-cols-2 gap-8">
+      <img id="modalImg" class="w-full rounded-xl">
+      <div>
+        <h2 id="modalName" class="text-2xl font-bold text-[#006633]"></h2>
+        <p id="modalDesc" class="mt-4 text-gray-700"></p>
+        <p id="modalPrice" class="mt-6 text-xl font-semibold text-[#006633]"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCRIPT ===== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* SLIDER */
+let index = 0;
+const slider = document.getElementById("slider");
+function showSlide(){ slider.style.transform = `translateX(-${index*100}%)`; }
+function nextSlide(){ index=(index+1)%3; showSlide(); }
+function prevSlide(){ index=(index+2)%3; showSlide(); }
+setInterval(nextSlide,5000);
+
+/* MODAL */
+function openProduct(n,i,p,d){
+  modalName.innerText=n;
+  modalImg.src=i;
+  modalPrice.innerText=p;
+  modalDesc.innerText=d;
+  productModal.classList.remove("hidden");
+}
+function closeProduct(){ productModal.classList.add("hidden"); }
+
+/* CHART */
+new Chart(document.getElementById('revenueChart'),{
+  type:'bar',
+  data:{
+    labels:['2020','2021','2022','2023','2024','2025'],
+    datasets:[{data:[7717,10011,15000,13500,12932,15863],backgroundColor:'#006633'}]
+  },
+  options:{plugins:{legend:{display:false}}}
+});
+
+/* I18N */
+const t={
+  vi:{
+    menu_products:"Sản phẩm",menu_about:"Giới thiệu",menu_farmer:"Đồng hành cùng nhà nông",
+    menu_news:"Tin tức",menu_investor:"Nhà đầu tư",menu_sus:"Bền vững",
+    hero_title:"KIẾN TẠO NIỀM TIN<br>ĐỒNG HÀNH PHÁT TRIỂN",
+    hero_desc:"Cung cấp phân bón chất lượng cao cho nông nghiệp Việt Nam",
+    hero_title1:"PHÁT TRIỂN BỀN VỮNG",
+    hero_desc1:"Đồng hành cùng nhà nông – Hướng tới tương lai xanh",
+    hero_title2:"SẢN PHẨM CHỦ LỰC QUỐC GIA",
+    hero_desc2:"Đảm bảo an ninh lương thực Việt Nam",
+    product_title:"Sản phẩm tiêu biểu",
+    see_morebutton: "Xem thêm",
+    see_morebutton1: "Xem thêm",
+    see_morebutton2: "Xem thêm",
+    content_inseemore1: "Đạm Ure Cà Mau",
+    content_inseemore1_1: "Hàm lượng đạm cao, ổn định",
+    content_inseemore1_2: "450.000đ / bao 50kg",
+    content_inseemore2: "NPK Cà Mau",
+    content_inseemore2_1: "Dinh dưỡng cân đối",
+    content_inseemore2_2: "520.000đ / bao 50kg",
+    content_inseemore3: "Kali Cà Mau",
+    content_inseemore3_1: "Tăng sức đề kháng",
+    content_inseemore3_2: "480.000đ / bao 50kg",
+    add_to_cart: "🛒 Thêm vào giỏ hàng",
+    add_to_cart2: "🛒 Thêm vào giỏ hàng",
+    add_to_cart3: "🛒 Thêm vào giỏ hàng",
+    revenue_title:"Thống kê doanh thu (tỷ đồng)",
+    about_title: "Giới thiệu",
+    about_desc:
+      "Công ty Cổ phần Phân bón Dầu khí Cà Mau (PVCFC) là đơn vị hàng đầu trong ngành phân bón Việt Nam, tiên phong trong công nghệ sản xuất và phát triển bền vững. Chúng tôi mang đến các sản phẩm chất lượng cao, đồng hành cùng sự phát triển của nền nông nghiệp quốc gia.",
+    farmer_title: "Đồng hành cùng nhà nông",
+    farmer_support_1: "Hỗ trợ kỹ thuật",
+    farmer_support_1_desc: "Cung cấp tư vấn, hướng dẫn nông dân sử dụng phân bón đúng cách để đạt hiệu quả cao nhất.",
+    farmer_support_2: "Chương trình khuyến nông",
+    farmer_support_2_desc: "Tổ chức hội thảo, đào tạo và hoạt động thực tế giúp nâng cao kiến thức, gắn kết với nông dân cả nước.",
+    news_title: "Tin tức & Sự kiện",
+    news_title1: "PVCFC tổ chức hội thảo nông dân 2025",
+    news_title1_desc: "Cùng bà con chia sẻ giải pháp canh tác hiệu quả...",
+    news_title2: "Ra mắt sản phẩm NPK thế hệ mới",
+    news_title2_desc: "Nâng cao hiệu suất và thân thiện với môi trường...",
+    news_title3: "PVCFC nhận giải thưởng phát triển bền vững",
+    news_title3_desc: "Khẳng định cam kết vì một nền nông nghiệp xanh...",
+    investor_title: "Quan hệ nhà đầu tư",
+    investor_desc: "PVCFC cam kết minh bạch, hiệu quả và phát triển bền vững. Chúng tôi cung cấp đầy đủ thông tin tài chính, kết quả kinh doanh và định hướng chiến lược để đồng hành cùng cổ đông, nhà đầu tư trong chặng đường dài hạn.",
+    sus_title: "Phát triển bền vững",
+    sus_desc: "PVCFC luôn chú trọng bảo vệ môi trường, phát triển các sản phẩm thân thiện và áp dụng giải pháp tiết kiệm năng lượng. Chúng tôi hướng tới một nền nông nghiệp xanh, bền vững và thịnh vượng.",
+    perks_title: "Lợi thế của Phân Bón Cà Mau",
+
+perk_1_title: "Công nghệ hiện đại",
+perk_1_desc: "Nhà máy khí – đạm Cà Mau vận hành theo tiêu chuẩn quốc tế, ứng dụng công nghệ tiên tiến.",
+
+perk_2_title: "Chất lượng quốc tế",
+perk_2_desc: "Sản phẩm đạt các tiêu chuẩn chất lượng nghiêm ngặt, ổn định và đáng tin cậy.",
+
+perk_3_title: "Phân phối toàn quốc",
+perk_3_desc: "Hệ thống phân phối rộng khắp, đảm bảo sản phẩm đến tay nông dân nhanh chóng.",
+
+perk_4_title: "Đội ngũ chuyên gia",
+perk_4_desc: "Đội ngũ kỹ sư và chuyên gia nông nghiệp giàu kinh nghiệm, đồng hành cùng nhà nông.",
+
+perk_5_title: "Cam kết bền vững",
+perk_5_desc: "Áp dụng mô hình ESG, giảm phát thải và bảo vệ môi trường sinh thái.",
+
+perk_6_title: "Thương hiệu uy tín",
+perk_6_desc: "Thương hiệu quốc gia, được nông dân và đối tác tin tưởng trong nhiều năm.",
+
+},
+  en:{
+    menu_products:"Products",menu_about:"About",menu_farmer:"Farmer Support",
+    menu_news:"News",menu_investor:"Investors",menu_sus:"Sustainability",
+    hero_title:"BUILDING TRUST<br>PARTNERING FOR GROWTH",
+    hero_desc:"Providing high-quality fertilizers for agriculture",
+    hero_title1:"SUSTAINABLE DEVELOPMENT",
+    hero_desc1:"Partnering with farmers – Towards a green future",
+    hero_title2:"NATIONAL KEY PRODUCT",
+    hero_desc2:"Ensuring Vietnam's Food Security",
+    product_title:"Featured Products",
+    see_morebutton: "See more",
+    see_morebutton1: "See more",
+    see_morebutton2: "See more",
+    content_inseemore1: "Ca Mau Urea Fertilizer",
+    content_inseemore1_1: "High and stable protein content",
+    content_inseemore1_2: "450,000 VND / 50kg bag",
+    content_inseemore2: "Ca Mau NPK Fertilizer",
+    content_inseemore2_1: "Balanced nutrition",
+    content_inseemore2_2: "520,000 VND / 50kg bag",
+    content_inseemore3: "Ca Mau Potassium Fertilizer",
+    content_inseemore3_1: "Increases immunity",
+    content_inseemore3_2: "480,000 VND / 50kg bag",
+    add_to_cart: "🛒 Add to cart",
+    add_to_cart2: "🛒 Add to cart",
+    add_to_cart3: "🛒 Add to cart",
+    revenue_title:"Revenue Statistics (Billion VND)",
+    about_title: "Introduction",
+    about_desc:
+    "Ca Mau Petroleum Fertilizer Joint Stock Company (PVCFC) is a leading company in the Vietnamese fertilizer industry, a pioneer in production technology and sustainable development. We provide high-quality products, accompanying the development of the national agriculture.",
+    farmer_title: "Supporting Farmers",
+    farmer_support_1: "Technical Support",
+    farmer_support_1_desc: "Providing advice and guidance to farmers on the proper use of fertilizers to achieve the highest efficiency.",
+    farmer_support_2: "Agricultural Programs",
+    farmer_support_2_desc: "Organizing workshops, training courses, and practical activities to enhance knowledge and build connections with farmers nationwide.",
+    news_title: "News & Events",
+    news_title1: "PVCFC organizes farmer workshop 2025",
+    news_title1_desc: "Sharing effective farming solutions with farmers...",
+    news_title2: "Launching new generation NPK products",
+    news_title2_desc: "Improving efficiency and being environmentally friendly...",
+    news_title3: "PVCFC receives sustainable development award",
+    news_title3_desc: "Reaffirming commitment to a green agriculture...",
+    investor_title: "Investor Relations",
+    investor_desc: "PVCFC is committed to transparency, efficiency, and sustainable development. We provide complete financial information, business results, and strategic direction to accompany shareholders and investors in the long term.",
+    sus_title: "Sustainable Development",
+    sus_desc: "PVCFC always prioritizes environmental protection, developing eco-friendly products, and applying energy-saving solutions. We aim for a green, sustainable, and prosperous agriculture.",
+    perks_title: "Why Choose Ca Mau Fertilizer",
+
+perk_1_title: "Advanced Technology",
+perk_1_desc: "Ca Mau gas–fertilizer complex operates under international standards with advanced technology.",
+
+perk_2_title: "International Quality",
+perk_2_desc: "Products meet strict quality standards, ensuring stability and reliability.",
+
+perk_3_title: "Nationwide Distribution",
+perk_3_desc: "A wide distribution network ensures fast delivery to farmers across Vietnam.",
+
+perk_4_title: "Expert Team",
+perk_4_desc: "Experienced engineers and agricultural experts accompany farmers nationwide.",
+
+perk_5_title: "Sustainability Commitment",
+perk_5_desc: "Applying ESG models, reducing emissions, and protecting the environment.",
+
+perk_6_title: "Trusted Brand",
+perk_6_desc: "A national brand trusted by farmers and partners for many years.",
+
+},
+};
+function setLang(l){
+  localStorage.setItem("lang",l);
+  document.querySelectorAll("[data-i18n]").forEach(e=>e.innerHTML=t[l][e.dataset.i18n]);
+}
+setLang(localStorage.getItem("lang")||"vi");
+function addToCart(name, price){
+  fetch("/add-to-cart/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRFToken": getCSRFToken()
+    },
+    body: `name=${name}&price=${price}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Đã thêm vào giỏ hàng!");
+  });
+}
+function updateCartCount(){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let total = cart.length;
+  document.getElementById("cartCount").innerText = total;
+}
+
+function getCSRFToken() {
+  return document.cookie.split('; ')
+    .find(row => row.startsWith('csrftoken'))
+    ?.split('=')[1];
+}
+
+function addToCart(id, name, price){
+  fetch("/add-to-cart/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRFToken": getCSRFToken()
+    },
+    body: `id=${id}&name=${name}&price=${price}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Đã thêm vào giỏ hàng!");
+  });
+}
+
+function goToCart(){
+  window.location.href = "{% url 'cart' %}";
+}
+
+updateCartCount();
+
+document.getElementById("searchInput").addEventListener("input", function(){
+  let keyword = this.value.toLowerCase();
+  let products = document.querySelectorAll("#products .group");
+
+  products.forEach(p => {
+    let name = p.innerText.toLowerCase();
+    p.style.display = name.includes(keyword) ? "block" : "none";
+  });
+});
+
+const names = ["Nguyễn Văn A", "Trần Văn B", "Lê Thị C", "Phạm Văn D"];
+const products = ["Đạm Ure Cà Mau", "NPK Cà Mau", "Kali Cà Mau"];
+
+function showPopup(){
+  let name = names[Math.floor(Math.random()*names.length)];
+  let product = products[Math.floor(Math.random()*products.length)];
+
+  let popup = document.getElementById("popup");
+  popup.innerText = `${name} vừa mua ${product}`;
+  popup.classList.remove("hidden");
+
+  setTimeout(() => popup.classList.add("hidden"), 3000);
+}
+
+setInterval(showPopup, 7000);
+</script>
+
+<div id="popup"
+  class="fixed bottom-5 left-5 bg-white shadow-lg px-4 py-3 rounded hidden">
+</div>
+
+</body>
+</html>
