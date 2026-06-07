@@ -29,7 +29,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEBUG = False
 
-ALLOWED_HOSTS = ['pvcfccc.onrender.com']
+ALLOWED_HOSTS = ['pvcfc.onrender.com']
 
 
 # Application definition
